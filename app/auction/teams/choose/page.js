@@ -2,115 +2,270 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const teams = [
-  { id: 1, name: "Chennai Super Kings", shortName: "CSK" },
-  { id: 2, name: "Delhi Capitals", shortName: "DC" },
-  { id: 3, name: "Gujarat Titans", shortName: "GT" },
-  { id: 4, name: "Kolkata Knight Riders", shortName: "KKR" },
-  { id: 5, name: "Lucknow Super Giants", shortName: "LSG" },
-  { id: 6, name: "Mumbai Indians", shortName: "MI" },
-  { id: 7, name: "Punjab Kings", shortName: "PBKS" },
-  { id: 8, name: "Rajasthan Royals", shortName: "RR" },
-  { id: 9, name: "Royal Challengers Bengaluru", shortName: "RCB" },
-  { id: 10, name: "Sunrisers Hyderabad", shortName: "SRH" },
+  {
+    name: "Chennai Super Kings",
+    shortName: "CSK",
+    emoji: "🦁",
+    color: "from-yellow-500/20",
+  },
+  {
+    name: "Delhi Capitals",
+    shortName: "DC",
+    emoji: "🔵",
+    color: "from-blue-500/20",
+  },
+  {
+    name: "Gujarat Titans",
+    shortName: "GT",
+    emoji: "⚔️",
+    color: "from-cyan-500/20",
+  },
+  {
+    name: "Kolkata Knight Riders",
+    shortName: "KKR",
+    emoji: "🟣",
+    color: "from-purple-500/20",
+  },
+  {
+    name: "Lucknow Super Giants",
+    shortName: "LSG",
+    emoji: "🔷",
+    color: "from-sky-500/20",
+  },
+  {
+    name: "Mumbai Indians",
+    shortName: "MI",
+    emoji: "🔷",
+    color: "from-blue-600/20",
+  },
+  {
+    name: "Punjab Kings",
+    shortName: "PBKS",
+    emoji: "🔴",
+    color: "from-red-500/20",
+  },
+  {
+    name: "Rajasthan Royals",
+    shortName: "RR",
+    emoji: "👑",
+    color: "from-pink-500/20",
+  },
+  {
+    name: "Royal Challengers Bengaluru",
+    shortName: "RCB",
+    emoji: "🔥",
+    color: "from-red-600/20",
+  },
+  {
+    name: "Sunrisers Hyderabad",
+    shortName: "SRH",
+    emoji: "🧡",
+    color: "from-orange-600/20",
+  },
 ];
 
 export default function ChooseTeam() {
-  const [selectedTeam, setSelectedTeam] = useState(null);
   const router = useRouter();
+  const [selectedTeam, setSelectedTeam] = useState(null);
 
   function startAuction() {
     if (!selectedTeam) return;
 
-    const team = teams.find((team) => team.id === selectedTeam);
-
-    localStorage.setItem("selectedTeam", JSON.stringify(team));
+    localStorage.setItem(
+      "selectedTeam",
+      JSON.stringify(selectedTeam)
+    );
 
     router.push("/auction/room");
   }
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white px-6 py-12">
-      <div className="max-w-5xl mx-auto">
+    <main className="min-h-screen bg-[#080808] text-white">
 
-        <p className="text-orange-500 font-semibold tracking-widest uppercase mb-3">
-          IPL 2026
-        </p>
+      {/* Header */}
+      <header className="border-b border-white/10 bg-[#0b0b0b]">
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
-        <h1 className="text-4xl font-bold mb-3">
-          Choose Your Team
-        </h1>
+          <Link
+            href="/auction/teams"
+            className="flex items-center gap-3 hover:opacity-80 transition"
+          >
+            <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-xl">
+              🏏
+            </div>
 
-        <p className="text-gray-400 mb-8">
-          Select the team you want to control during the auction.
-        </p>
+            <div>
+              <h1 className="font-bold">
+                IPL MOCK AUCTION
+              </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <p className="text-xs text-gray-500">
+                IPL 2026
+              </p>
+            </div>
+          </Link>
+
+          <div className="text-sm text-gray-500">
+            Step <span className="text-white font-bold">3</span> of 3
+          </div>
+
+        </div>
+      </header>
+
+      {/* Main */}
+      <section className="max-w-6xl mx-auto px-6 py-12">
+
+        {/* Heading */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+
+          <p className="text-orange-500 font-semibold text-sm tracking-widest uppercase mb-3">
+            Final Setup
+          </p>
+
+          <h2 className="text-4xl md:text-6xl font-black">
+            Choose Your Team
+          </h2>
+
+          <p className="text-gray-500 mt-4 text-lg">
+            Pick the team you will control during the auction.
+            Make every bid count.
+          </p>
+
+        </div>
+
+        {/* Selected Team Preview */}
+        <div className="mb-10">
+
+          {selectedTeam ? (
+            <div className="border border-orange-500/30 bg-orange-500/[0.06] rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-5">
+
+              <div className="flex items-center gap-5">
+
+                <div className="w-20 h-20 rounded-2xl bg-black/40 border border-orange-500/20 flex items-center justify-center text-4xl">
+                  {selectedTeam.emoji}
+                </div>
+
+                <div>
+                  <p className="text-orange-400 text-xs font-bold tracking-widest">
+                    YOUR TEAM
+                  </p>
+
+                  <h3 className="text-2xl font-black mt-1">
+                    {selectedTeam.name}
+                  </h3>
+
+                  <p className="text-gray-500 text-sm mt-1">
+                    {selectedTeam.shortName}
+                  </p>
+                </div>
+
+              </div>
+
+              <button
+                onClick={() => setSelectedTeam(null)}
+                className="text-sm text-gray-500 hover:text-white transition"
+              >
+                Change Team
+              </button>
+
+            </div>
+          ) : (
+            <div className="border border-dashed border-white/10 rounded-2xl p-6 text-center text-gray-600">
+              Select a team below
+            </div>
+          )}
+
+        </div>
+
+        {/* Teams */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
           {teams.map((team) => {
-            const selected = selectedTeam === team.id;
+
+            const isSelected =
+              selectedTeam?.shortName === team.shortName;
 
             return (
               <button
-                key={team.id}
-                onClick={() => setSelectedTeam(team.id)}
-                className={`p-6 rounded-xl border text-left transition ${
-                  selected
-                    ? "border-orange-500 bg-orange-500/10"
-                    : "border-gray-800 bg-gray-900 hover:border-gray-600"
+                key={team.shortName}
+                onClick={() => setSelectedTeam(team)}
+                className={`relative overflow-hidden rounded-2xl border text-left transition-all duration-200 ${
+                  isSelected
+                    ? "border-orange-500 bg-orange-500/[0.08] -translate-y-1 shadow-lg shadow-orange-500/10"
+                    : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]"
                 }`}
               >
-                <div className="flex justify-between items-center">
 
-                  <div>
-                    <div className="text-2xl font-bold">
-                      {team.shortName}
-                    </div>
-
-                    <div className="text-gray-400 mt-1">
-                      {team.name}
-                    </div>
+                {isSelected && (
+                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-orange-500 text-black flex items-center justify-center font-black z-10">
+                    ✓
                   </div>
+                )}
 
-                  {selected && (
-                    <span className="text-orange-500 text-2xl">
-                      ✓
-                    </span>
-                  )}
+                <div
+                  className={`h-28 bg-gradient-to-br ${team.color} to-transparent flex items-center justify-center`}
+                >
+                  <div className="w-16 h-16 rounded-full bg-black/30 border border-white/10 flex items-center justify-center text-3xl">
+                    {team.emoji}
+                  </div>
+                </div>
+
+                <div className="p-4">
+
+                  <p className="text-orange-500 text-xs font-bold tracking-widest">
+                    {team.shortName}
+                  </p>
+
+                  <h3 className="font-bold text-sm mt-2 leading-tight min-h-[40px]">
+                    {team.name}
+                  </h3>
+
+                  <p
+                    className={`text-xs font-semibold mt-4 ${
+                      isSelected
+                        ? "text-orange-400"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {isSelected ? "✓ Selected" : "Select Team"}
+                  </p>
 
                 </div>
+
               </button>
             );
           })}
 
         </div>
 
-        <div className="mt-8 bg-gray-900 border border-gray-800 rounded-xl p-5 flex justify-between items-center">
-
-          <div>
-            <p className="font-semibold">
-              Your Team
-            </p>
-
-            <p className="text-gray-400">
-              {selectedTeam
-                ? teams.find((team) => team.id === selectedTeam)?.name
-                : "No team selected"}
-            </p>
-          </div>
+        {/* Start Auction */}
+        <div className="mt-12 border-t border-white/10 pt-8 flex flex-col items-center">
 
           <button
             onClick={startAuction}
             disabled={!selectedTeam}
-            className="px-6 py-3 rounded-lg font-semibold bg-orange-500 hover:bg-orange-600 disabled:bg-gray-700 disabled:text-gray-500"
+            className={`w-full md:w-auto min-w-[280px] px-10 py-4 rounded-xl font-bold text-lg transition ${
+              selectedTeam
+                ? "bg-orange-500 hover:bg-orange-600 text-black hover:scale-[1.02]"
+                : "bg-gray-800 text-gray-600 cursor-not-allowed"
+            }`}
           >
-            Start Auction
+            {selectedTeam
+              ? "Start Auction 🚀"
+              : "Select a Team First"}
           </button>
+
+          <p className="text-gray-600 text-sm mt-4">
+            You can change your team before starting the auction.
+          </p>
 
         </div>
 
-      </div>
+      </section>
+
     </main>
   );
 }

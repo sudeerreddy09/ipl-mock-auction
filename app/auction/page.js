@@ -1,108 +1,196 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
-const teams = [
-  { id: 1, name: "Chennai Super Kings", shortName: "CSK" },
-  { id: 2, name: "Delhi Capitals", shortName: "DC" },
-  { id: 3, name: "Gujarat Titans", shortName: "GT" },
-  { id: 4, name: "Kolkata Knight Riders", shortName: "KKR" },
-  { id: 5, name: "Lucknow Super Giants", shortName: "LSG" },
-  { id: 6, name: "Mumbai Indians", shortName: "MI" },
-  { id: 7, name: "Punjab Kings", shortName: "PBKS" },
-  { id: 8, name: "Rajasthan Royals", shortName: "RR" },
-  { id: 9, name: "Royal Challengers Bengaluru", shortName: "RCB" },
-  { id: 10, name: "Sunrisers Hyderabad", shortName: "SRH" },
-];
-
-export default function TeamSelection() {
-  const [selectedTeams, setSelectedTeams] = useState([]);
-
-  const toggleTeam = (id) => {
-    if (selectedTeams.includes(id)) {
-      setSelectedTeams(selectedTeams.filter((teamId) => teamId !== id));
-    } else {
-      setSelectedTeams([...selectedTeams, id]);
-    }
-  };
+export default function AuctionSetup() {
+  const [auctionName, setAuctionName] = useState("");
+  const [numberOfTeams, setNumberOfTeams] = useState("10");
+  const [teamPurse, setTeamPurse] = useState("150");
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white p-8">
+    <main className="min-h-screen bg-[#080808] text-white">
 
-      <div className="max-w-6xl mx-auto">
+      {/* Header */}
+      <header className="border-b border-white/10 bg-[#0b0b0b]">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
 
-        <p className="text-orange-500 font-semibold mb-2">
-          IPL 2026
-        </p>
+          <Link
+            href="/"
+            className="flex items-center gap-3 hover:opacity-80 transition"
+          >
+            <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-xl">
+              🏏
+            </div>
 
-        <h1 className="text-4xl font-bold mb-2">
-          Select Teams
-        </h1>
+            <div>
+              <h1 className="font-bold">
+                IPL MOCK AUCTION
+              </h1>
+              <p className="text-xs text-gray-500">
+                IPL 2026
+              </p>
+            </div>
+          </Link>
 
-        <p className="text-gray-400 mb-8">
-          Select the teams that will participate in your auction.
-        </p>
+          <div className="text-sm text-gray-500">
+            Step <span className="text-white font-bold">1</span> of 3
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        </div>
+      </header>
 
-          {teams.map((team) => (
-            <button
-              key={team.id}
-              onClick={() => toggleTeam(team.id)}
-              className={`p-6 rounded-xl border text-left transition ${
-                selectedTeams.includes(team.id)
-                  ? "border-orange-500 bg-orange-500/10"
-                  : "border-gray-800 bg-gray-900 hover:border-gray-600"
-              }`}
-            >
+      {/* Main */}
+      <section className="max-w-4xl mx-auto px-6 py-14">
 
-              <div className="flex justify-between items-center">
+        {/* Title */}
+        <div className="mb-10">
 
-                <div>
-                  <div className="text-2xl font-bold">
-                    {team.shortName}
-                  </div>
+          <p className="text-orange-500 font-semibold text-sm tracking-widest uppercase mb-3">
+            Auction Setup
+          </p>
 
-                  <div className="text-gray-400 mt-1">
-                    {team.name}
-                  </div>
-                </div>
+          <h2 className="text-4xl md:text-5xl font-black">
+            Create Your Auction
+          </h2>
 
-                {selectedTeams.includes(team.id) && (
-                  <div className="text-orange-500 text-2xl">
-                    ✓
-                  </div>
-                )}
-
-              </div>
-
-            </button>
-          ))}
+          <p className="text-gray-500 mt-3">
+            Configure your auction before entering the team selection.
+          </p>
 
         </div>
 
-        <div className="mt-8 bg-gray-900 border border-gray-800 rounded-xl p-5 flex justify-between items-center">
+        {/* Setup Card */}
+        <div className="border border-white/10 bg-white/[0.03] rounded-2xl p-7 md:p-9 space-y-8">
 
+          {/* Auction Name */}
           <div>
-            <p className="font-semibold">
-              Selected Teams
-            </p>
+            <label className="block text-sm font-semibold mb-3">
+              Auction Name
+            </label>
 
-            <p className="text-gray-400">
-              {selectedTeams.length} teams selected
+            <input
+              type="text"
+              value={auctionName}
+              onChange={(e) => setAuctionName(e.target.value)}
+              placeholder="Example: Friends IPL Auction"
+              className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-orange-500 transition placeholder:text-gray-600"
+            />
+
+            <p className="text-xs text-gray-600 mt-2">
+              Give your auction a name.
             </p>
           </div>
 
-          <button
-            disabled={selectedTeams.length < 2}
-            className="px-6 py-3 rounded-lg font-semibold bg-orange-500 hover:bg-orange-600 disabled:bg-gray-700 disabled:text-gray-500"
+          {/* Number of Teams */}
+          <div>
+            <label className="block text-sm font-semibold mb-3">
+              Number of Teams
+            </label>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+              {["5", "7", "10", "15"].map((teams) => (
+                <button
+                  key={teams}
+                  onClick={() => setNumberOfTeams(teams)}
+                  className={`py-4 rounded-xl border font-bold transition ${
+                    numberOfTeams === teams
+                      ? "bg-orange-500 text-black border-orange-500"
+                      : "bg-[#111] border-white/10 text-gray-400 hover:border-orange-500/40"
+                  }`}
+                >
+                  {teams} Teams
+                </button>
+              ))}
+
+            </div>
+          </div>
+
+          {/* Team Purse */}
+          <div>
+            <label className="block text-sm font-semibold mb-3">
+              Starting Purse
+            </label>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+              {["150", "120", "100", "80"].map((purse) => (
+                <button
+                  key={purse}
+                  onClick={() => setTeamPurse(purse)}
+                  className={`py-4 rounded-xl border font-bold transition ${
+                    teamPurse === purse
+                      ? "bg-orange-500 text-black border-orange-500"
+                      : "bg-[#111] border-white/10 text-gray-400 hover:border-orange-500/40"
+                  }`}
+                >
+                  ₹{purse} Cr
+                </button>
+              ))}
+
+            </div>
+          </div>
+
+          {/* Auction Preview */}
+          <div className="border border-orange-500/20 bg-orange-500/[0.05] rounded-xl p-5">
+
+            <p className="text-orange-400 text-sm font-semibold mb-4">
+              AUCTION PREVIEW
+            </p>
+
+            <div className="grid grid-cols-3 gap-4">
+
+              <div>
+                <p className="text-gray-500 text-xs">
+                  Teams
+                </p>
+
+                <p className="text-xl font-bold mt-1">
+                  {numberOfTeams}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-gray-500 text-xs">
+                  Purse / Team
+                </p>
+
+                <p className="text-xl font-bold mt-1">
+                  ₹{teamPurse} Cr
+                </p>
+              </div>
+
+              <div>
+                <p className="text-gray-500 text-xs">
+                  Season
+                </p>
+
+                <p className="text-xl font-bold mt-1">
+                  2026
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Continue */}
+          <Link
+            href="/auction/teams"
+            className="block w-full text-center bg-orange-500 hover:bg-orange-600 text-black py-4 rounded-xl font-bold text-lg transition hover:scale-[1.01]"
           >
-            Continue
-          </button>
+            Continue to Teams →
+          </Link>
 
         </div>
 
-      </div>
+        {/* Footer note */}
+        <p className="text-center text-gray-600 text-sm mt-6">
+          You can configure your squad and auction settings in the next steps.
+        </p>
+
+      </section>
 
     </main>
   );
